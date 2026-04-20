@@ -5,9 +5,21 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let aiClient: any = null;
+
+function getAIClient() {
+  if (!aiClient) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("L'API Key Gemini est manquante. Vérifiez vos variables d'environnement.");
+    }
+    aiClient = new GoogleGenAI({ apiKey });
+  }
+  return aiClient;
+}
 
 export async function getPlayerScoutingReport(playerName: string, stats: any) {
+  const ai = getAIClient();
   const prompt = `Génère un rapport de scouting détaillé pour le joueur suivant dans la ligue LNBH en Haïti.
   Nom: ${playerName}
   Statistiques: ${JSON.stringify(stats)}
@@ -42,6 +54,7 @@ export async function getPlayerScoutingReport(playerName: string, stats: any) {
 }
 
 export async function predictMatchWinner(homeTeam: any, awayTeam: any) {
+  const ai = getAIClient();
   const prompt = `Prédit le vainqueur du match :
   Équipe Domicile: ${JSON.stringify(homeTeam)}
   Équipe Extérieur: ${JSON.stringify(awayTeam)}
