@@ -1,0 +1,71 @@
+{
+  "entities": {
+    "Team": {
+      "title": "Team",
+      "description": "A basketball team in the LNBH",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "city": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "wins": { "type": "integer" },
+        "losses": { "type": "integer" },
+        "points": { "type": "integer" },
+        "rank": { "type": "integer" }
+      },
+      "required": ["name", "city"]
+    },
+    "Player": {
+      "title": "Player",
+      "description": "A basketball player in the league",
+      "type": "object",
+      "properties": {
+        "teamId": { "type": "string" },
+        "name": { "type": "string" },
+        "age": { "type": "integer" },
+        "height": { "type": "string" },
+        "position": { "type": "string", "enum": ["PG", "SG", "SF", "PF", "C"] },
+        "pointsPerMatch": { "type": "number" },
+        "rebounds": { "type": "number" },
+        "assists": { "type": "number" },
+        "efficiency": { "type": "number" },
+        "photoUrl": { "type": "string" }
+      },
+      "required": ["name", "teamId"]
+    },
+    "Match": {
+      "title": "Match",
+      "description": "A basketball match record",
+      "type": "object",
+      "properties": {
+        "homeTeamId": { "type": "string" },
+        "awayTeamId": { "type": "string" },
+        "homeScore": { "type": "integer" },
+        "awayScore": { "type": "integer" },
+        "date": { "type": "string", "format": "date-time" },
+        "isLive": { "type": "boolean" },
+        "mvpId": { "type": "string" },
+        "highlightsUrl": { "type": "string" }
+      },
+      "required": ["homeTeamId", "awayTeamId", "date"]
+    },
+    "Article": {
+      "title": "Article",
+      "description": "News article about the league",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "publishedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content"]
+    }
+  },
+  "firestore": {
+    "teams": { "schema": "Team", "description": "LNBH Teams" },
+    "players": { "schema": "Player", "description": "LNBH Players" },
+    "matches": { "schema": "Match", "description": "Match schedule and results" },
+    "articles": { "schema": "Article", "description": "News and announcements" }
+  }
+}
